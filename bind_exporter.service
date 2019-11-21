@@ -1,0 +1,14 @@
+[Unit]
+Description=Export BIND(named/dns) v9+ service metrics to Prometheus.
+Documentation=https://github.com/digitalocean/bind_exporter
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/bind_exporter.conf
+User=bind_exporter
+Group=bind_exporter
+ExecStart=/usr/bin/bind_exporter $BIND_EXPORTER_OPTS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
