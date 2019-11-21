@@ -70,7 +70,7 @@ exit 0
 %files
 %{_bindir}/%{repo}
 %{_unitdir}/%{repo}.service
-%config(noreplace) /etc/%{repo}/%{repo}
+%config(noreplace) /etc/%{repo}/%{repo}.conf
 %attr(755, bind_exporter, bind_exporter)/%{_sharedstatedir}/bind_exporter
 %doc CHANGELOG.md LICENSE NOTICE README.md
 
