@@ -13,7 +13,7 @@
 
 Name:    golang-%{provider}-%{project}-%{repo}
 Version: 0.2
-Release: 1.git%{gitdate}%{?dist}
+Release: 2.git%{gitdate}%{?dist}
 Summary: Prometheus exporter for BIND
 License: ASL 2.0
 URL:     https://%{provider_prefix}
@@ -54,6 +54,7 @@ install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{repo}/%{repo}.conf
 install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/named-stats.conf
 
 %pre
+echo 'include "/etc/named-stats.conf";' >> %{_sysconfdir}/named.conf
 getent group bind_exporter >/dev/null || groupadd -r bind_exporter
 getent passwd bind_exporter >/dev/null || \
   useradd -r -g bind_exporter -d /%{_sharedstatedir}/bind_exporter -s /sbin/nologin \
@@ -78,6 +79,9 @@ exit 0
 %doc CHANGELOG.md LICENSE NOTICE README.md
 
 %changelog
+* Thu Nov 21 2019 Bugzy Little <bugzylittle@gmail.com> - 0.2-2.git20190923
+- Add extra configuration to default bind config file
+
 * Thu Nov 21 2019 Bugzy Little <bugzylittle@gmail.com> - 0.2-1.git20190923
 - Add default export options in config file 
 - Add additional named-stats.conf file for inclusion in named.stats

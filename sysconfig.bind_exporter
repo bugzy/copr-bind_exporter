@@ -1,1 +1,1 @@
-OPTIONS=" -bind.pid-file /var/run/named/named.pid -bind.stats-groups "server,view,tasks""
+OPTIONS=" -bind.pid-file /var/run/named/named.pid "
