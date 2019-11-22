@@ -13,13 +13,14 @@
 
 Name:    golang-%{provider}-%{project}-%{repo}
 Version: 0.2
-Release: 0.git%{gitdate}%{?dist}
+Release: 1.git%{gitdate}%{?dist}
 Summary: Prometheus exporter for BIND
 License: ASL 2.0
 URL:     https://%{provider_prefix}
 Source0: https://%{provider_prefix}/archive/%{gitcommit}/%{repo}-%{shortcommit}.tar.gz
 Source1: %{repo}.service
-Source2: %{repo}.default
+Source2: sysconfig.%{repo}
+Source3: dnsconfig.%{repo}
 
 %{?el7:%{?systemd_requires}}
 Requires(pre): shadow-utils
@@ -50,6 +51,7 @@ mkdir -vp %{buildroot}/%{_sysconfdir}/%{repo}
 install -m 755 %{repo} %{buildroot}/%{_bindir}/%{repo}
 install -m 644 %{SOURCE1} %{buildroot}/%{_unitdir}/%{repo}.service
 install -m 644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/%{repo}/%{repo}.conf
+install -m 644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/named-stats.conf
 
 %pre
 getent group bind_exporter >/dev/null || groupadd -r bind_exporter
@@ -70,11 +72,16 @@ exit 0
 %files
 %{_bindir}/%{repo}
 %{_unitdir}/%{repo}.service
+%config(noreplace) /etc/named-stats.conf
 %config(noreplace) /etc/%{repo}/%{repo}.conf
 %attr(755, bind_exporter, bind_exporter)/%{_sharedstatedir}/bind_exporter
 %doc CHANGELOG.md LICENSE NOTICE README.md
 
 %changelog
+* Thu Nov 21 2019 Bugzy Little <bugzylittle@gmail.com> - 0.2-1.git20190923
+- Add default export options in config file 
+- Add additional named-stats.conf file for inclusion in named.stats
+
 * Thu Nov 21 2019 Bugzy Little <bugzylittle@gmail.com> - 0.2-0.git20190923
 - Change config paths 
 - Change systemd unit files

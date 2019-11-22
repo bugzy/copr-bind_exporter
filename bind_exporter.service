@@ -7,7 +7,7 @@ After=network.target
 EnvironmentFile=/etc/bind_exporter/bind_exporter.conf
 User=bind_exporter
 Group=bind_exporter
-ExecStart=/usr/bin/bind_exporter $BIND_EXPORTER_OPTS
+ExecStart=/usr/bin/bind_exporter $OPTIONS
 Restart=on-failure
 
 [Install]
